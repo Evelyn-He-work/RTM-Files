@@ -1,5 +1,6 @@
 # ---- DESCRIPTION ---- #
-
+# In addition to v3, automated copying of master files and formatting.
+# Everything automated except for making workbook & closing workbook 
 
 function Remove-UdfFiletype($fileType) {
     $newRange1 = $newSheet.Range("A2").EntireColumn
@@ -23,23 +24,23 @@ function Copy-UdfMasterFile($start) {
 $excel = New-Object -ComObject Excel.Application
 $excel.visible = $true
 
-$destPath = 'C:\Evelyn Documents\RTM Missing Letters\2021\2021.xlsx'
-$sourcePath = 'C:\Evelyn Documents\RTM Missing Letters\2021\List of Project Documents_2021 (RTM Master).xlsx'
-$masterPath = 'C:\Evelyn Documents\RTM Missing Letters\2021\Stage 1 - List of All Documents 2020 (OLRT).xlsx'
+$destPath = 'C:\Evelyn Documents\00_Projects\RTM Missing Letters\2021 Handover\2021 Handover.xlsx'
+$sourcePath = 'C:\Evelyn Documents\00_Projects\RTM Missing Letters\2021 Handover\List of Handover Documents_2021.xlsx'
+$masterPath = 'C:\Evelyn Documents\00_Projects\RTM Missing Letters\2021 Handover\Stage 1 - List of All Documents 2021.xlsx'
 $excel.Workbooks.Open($destPath)
 $excel.Workbooks.Open($sourcePath)
 $excel.Workbooks.Open($masterPath)
 
-$destFile = $excel.Workbooks.Item("2021")
-$sourceFile = $excel.Workbooks.Item("List of Project Documents_2021 (RTM Master)")
-$masterFile = $excel.Workbooks.Item("Stage 1 - List of All Documents 2020 (OLRT)")
+$destFile = $excel.Workbooks.Item("2021 Handover")
+$sourceFile = $excel.Workbooks.Item("List of Handover Documents_2021")
+$masterFile = $excel.Workbooks.Item("Stage 1 - List of All Documents 2021")
 
 #Copy OLRTC Master to new worksheet
-$master=$masterFile.Worksheets.Item("Sheet1")
+$master=$masterFile.Worksheets.Item("Design Drawings")
 $newSheet=$destFile.Worksheets.Add()
 $newSheet.name = "All"
 Copy-UdfMasterFile "A1"
-Copy-UdfMasterFile "B1"
+Copy-UdfMasterFile "C1"
 
 $all = $destFile.Worksheets.Item("All")
 $allRange = $all.Range("A2").EntireColumn
@@ -128,7 +129,6 @@ $destSheet=$destFile.Worksheets.Item(1)
 #formatting
 foreach ($destSheet in $destFile.Worksheets){
     $destSheet.UsedRange.Columns.Autofit() | out-null
-    $excel.Range("A1:C1").Interior.ColorIndex=15
 }
 
 #$destFile.close($false)
